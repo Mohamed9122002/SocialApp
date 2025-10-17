@@ -4,81 +4,82 @@
   <div class="bg-white shadow-lg rounded-2xl p-8 w-full max-w-xl">
     <h2 class="text-2xl font-semibold text-blue-600 mb-6">Register now</h2>
 
-    <form [formGroup]="registerForm" class="space-y-5">
+    <form [formGroup]="registerForm" (ngSubmit)="registerFormSubmit()" class="space-y-5">
       <div>
-        <input
-          type="text"
-          formControlName="name"
-          placeholder="Type your name.."
-          class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-        />
+        <input type="text" formControlName="name" placeholder="Type your name.."
+          class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none" />
+        @if (registerForm.get('name')?.touched && registerForm.get('name')?.hasError('required')) {
+        <p class="text-red-500 text-sm mt-1">Name is required</p>
+        }
       </div>
       <div>
-        <input
-          type="email"
-          formControlName="email"
-          placeholder="Type your email..."
-          class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-        />
-      </div>
-
-      <div>
-        <input
-          type="password"
-          formControlName="password"
-          placeholder="Type your password"
-          class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-        />
+        <input type="email" formControlName="email" placeholder="Type your email..."
+          class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none" />
+        @if (registerForm.get('email')?.touched) {
+        @if (registerForm.get('email')?.hasError('required')) {
+        <p class="text-red-500 text-sm mt-1">Email is required</p>
+        } @else if (registerForm.get('email')?.hasError('email')) {
+        <p class="text-red-500 text-sm mt-1">Enter a valid email address</p>
+        }
+        }
       </div>
 
       <div>
-        <input
-          type="password"
-          formControlName="confirmPassword"
-          placeholder="confirm password"
-          class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-        />
+        <input type="password" formControlName="password" placeholder="Type your password"
+          class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none" />
+        @if (registerForm.get('password')?.touched && registerForm.get('password')?.invalid) {
+        @if (registerForm.get('password')?.hasError('required')) {
+        <p class="text-red-500 text-sm mt-1">Password is required</p>
+        } @else if (registerForm.get('password')?.hasError('pattern')) {
+        <ul class="text-red-500 text-sm mt-1 list-disc pl-5">
+          <li>At least one uppercase letter</li>
+          <li>At least one lowercase letter</li>
+          <li>At least one number</li>
+<li>At least one special character Example *</li>
+          <li>Minimum 8 characters</li>
+        </ul>
+        }
+        }
       </div>
+      <div>
+        <input type="password" formControlName="rePassword" placeholder="Type your rePassword"
+          class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none" />
+      </div>
+
       <div class="relative">
         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           <i class="bi bi-calendar-event text-gray-500"></i>
         </div>
-        <input
-          type="date"
-          formControlName="birthDate"
-          class="w-full rounded-xl border border-gray-200 bg-gray-50 px-10 py-2.5 text-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-        />
+        <input type="date" formControlName="dateOfBirth"
+          class="w-full rounded-xl border border-gray-200 bg-gray-50 px-10 py-2.5 text-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none" />
+        @if (registerForm.get('dateOfBirth')?.touched && registerForm.get('dateOfBirth')?.hasError('required')) {
+        <p class="text-red-500 text-sm mt-1">Date of birth is required</p>
+        }
       </div>
 
       <div class="flex items-center gap-4">
         <div class="flex items-center">
-          <input
-            id="male"
-            type="radio"
-            value="male"
-            formControlName="gender"
-            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-          />
+          <input id="male" type="radio" value="male" formControlName="gender"
+            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500" />
           <label for="male" class="ml-2 text-gray-700">Male</label>
+          @if (registerForm.get('gender')?.touched && registerForm.get('gender')?.hasError('required')) {
+          <p class="text-red-500 text-sm mt-1">Gender is required</p>
+          }
         </div>
 
         <div class="flex items-center">
-          <input
-            id="female"
-            type="radio"
-            value="female"
-            formControlName="gender"
-            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-          />
+          <input id="female" type="radio" value="female" formControlName="gender"
+            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500" />
           <label for="female" class="ml-2 text-gray-700">Female</label>
+          @if (registerForm.get('gender')?.touched && registerForm.get('gender')?.hasError('required')) {
+          <p class="text-red-500 text-sm mt-1">Gender is required</p>
+          }
         </div>
       </div>
 
       <div>
-        <button
-          type="submit"
-          class="w-32 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-xl shadow-md transition duration-150"
-        >
+        <button type="submit"
+          class="w-32 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-xl shadow-md transition duration-150">
           Signup
         </button>
       </div>

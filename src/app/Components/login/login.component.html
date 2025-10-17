@@ -4,36 +4,47 @@
   <div class="bg-white shadow-md rounded-2xl w-full max-w-lg p-8">
     <h2 class="text-2xl font-semibold text-blue-600 mb-6">Login Now</h2>
 
-    <form [formGroup] = "loginForm">
+    <form [formGroup]="loginForm" (ngSubmit)="loginFormSubmit()" >
 
       <div class="mb-4">
-        <input
-          formControlName="email"
-          type="email"
-          placeholder="Type your email..."
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-        />
+        <input formControlName="email" type="email" placeholder="Type your email..."
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
+        @if (loginForm.get('email')?.touched) {
+        @if (loginForm.get('email')?.hasError('required')) {
+        <p class="text-red-500 text-sm mt-1">Email is required</p>
+        } @else if (loginForm.get('email')?.hasError('email')) {
+        <p class="text-red-500 text-sm mt-1">Enter a valid email address</p>
+        }
+        }
+
       </div>
 
       <div class="mb-6">
-        <input
-          formControlName="password"
-          type="password"
-          placeholder="Type your password"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-        />
+        <input formControlName="password" type="password" placeholder="Type your password"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
+        @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+        @if (loginForm.get('password')?.hasError('required')) {
+        <p class="text-red-500 text-sm mt-1">Password is required</p>
+        } @else if (loginForm.get('password')?.hasError('pattern')) {
+        <ul class="text-red-500 text-sm mt-1 list-disc pl-5">
+          <li>At least one uppercase letter</li>
+          <li>At least one lowercase letter</li>
+          <li>At least one number</li>
+          <li>At least one special character Example *</li>
+          <li>Minimum 8 characters</li>
+        </ul>
+        }
+        }
       </div>
-      <button
-        type="submit"
-        class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-      >
+      <button type="submit"
+        class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
         Signin
       </button>
     </form>
     <p class="text-center text-sm text-gray-600 mt-4">
       Not registered?
       <a routerLink="/register" class="text-blue-600 hover:underline font-medium">Create account</a>
-      
+
     </p>
   </div>
 </div>
